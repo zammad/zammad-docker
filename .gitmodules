@@ -1,3 +1,0 @@
-[submodule "zammad-source"]
-	path = zammad-source
-	url = git@github.com:martini/zammad.git

@@ -10,13 +10,12 @@ docker build -t zammad .
 docker images
 docker ps --all
 
-docker run -ti zammad /bin/bash
-
-docker run --privileged -ti -v /sys/fs/cgroup:/sys/fs/cgroup:ro zammad /bin/bash
-
-
-
+docker run -ti -p 80:80 zammad
 
 
 
 boot2docker down
+
+
+boot2docker ip
+docker inspect *CONTAINERID*

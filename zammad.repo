@@ -1,0 +1,4 @@
+[zammad]
+name=Repository for martini/zammad application.
+baseurl=https://default:ac17d18aa61ef34db9dde9a6e2e553e7@rpm.packager.io/gh/martini/zammad/centos6/develop
+enabled=1

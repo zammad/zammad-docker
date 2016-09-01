@@ -1,6 +1,14 @@
+variables:
+  REGISTRY: registry.znuny.com
+
 before_script:
-  - docker info
+  - if [["$CI_BUILD_REF_NAME" != master]]; then REGISTRY="$REGISTRY/$CI_BUILD_REF_NAME"; fi
 
 build_image:
+  only:
+    - master
+    - develop
+    - tags
   script:
     - docker build -t zammad .
+    - docker push $REGISTRY/zammad:latest

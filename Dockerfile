@@ -38,7 +38,7 @@ RUN /bin/bash -l -c "echo 'max_stack_depth = 2MB' >> /var/lib/pgsql/data/postgre
 RUN /bin/bash -l -c "service postgresql start && su - postgres -c 'createuser -s zammad'"
 
 # DEBUG:
-RUN /bin/bash -l -c "su - zammad -c 'psql'"
+RUN /bin/bash -l -c "service postgresql start && su - zammad -c 'psql'"
 
 # TMP FIX
 RUN /bin/bash -l -c "usermod -d /opt/zammad zammad"

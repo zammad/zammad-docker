@@ -48,7 +48,7 @@ RUN /bin/bash -l -c "cp /opt/zammad/contrib/nginx/sites-enabled/zammad.conf /etc
 
 
 RUN /bin/bash -l -c "cd /usr/share/elasticsearch && bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/2.5.0"
-RUN /bin/bash -l -c "service postgresql start && service elasticsearch start && su - zammad -c 'export RAILS_ENV=production && cd /opt/zammad && export PATH=/opt/zammad/bin:$PATH && export GEM_PATH=/opt/zammad/vendor/bundle/ruby/2.3.0/ && rails r \"Setting.set('es_url', 'http://localhost:9200')\" && sleep 15 && rake searchindex:rebuild'"
+RUN /bin/bash -l -c "service postgresql start && service elasticsearch start && su - zammad -c 'export RAILS_ENV=production && cd /opt/zammad && export PATH=/opt/zammad/bin:$PATH && export GEM_PATH=/opt/zammad/vendor/bundle/ruby/2.3.0/ && rails r \"Setting.set('es_url', \'http://localhost:9200\')\" && sleep 15 && rake searchindex:rebuild'"
 
 ADD run.sh /run.sh
 RUN chmod +x /run.sh

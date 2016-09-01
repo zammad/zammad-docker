@@ -26,7 +26,7 @@ RUN su - zammad /bin/bash -l -c "cd /opt/zammad && echo '  database: zammad' >> 
 RUN su - zammad /bin/bash -l -c "cd /opt/zammad && echo '  pool: 50' >> config/database.yml"
 RUN su - zammad /bin/bash -l -c "cd /opt/zammad && echo '  timeout: 5000' >> config/database.yml"
 RUN su - zammad /bin/bash -l -c "cd /opt/zammad && echo '  username: zammad' >> config/database.yml"
-RUN su - zammad /bin/bash -l -c "cd /opt/zammad && echo '  password: \"\"' >> config/database.yml"
+RUN su - zammad /bin/bash -l -c "cd /opt/zammad && echo '  password:' >> config/database.yml"
 RUN su - zammad /bin/bash -l -c "cd /opt/zammad && echo '  host: 127.0.0.1' >> config/database.yml"
 
 # setup DB

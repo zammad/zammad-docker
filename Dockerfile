@@ -37,6 +37,9 @@ RUN /bin/bash -l -c "echo 'work_mem = 6MB' >> /var/lib/pgsql/data/postgresql.con
 RUN /bin/bash -l -c "echo 'max_stack_depth = 2MB' >> /var/lib/pgsql/data/postgresql.conf"
 RUN /bin/bash -l -c "service postgresql start && su - postgres -c 'createuser -s zammad'"
 
+# DEBUG:
+RUN /bin/bash -l -c "&& su - zammad -c 'psql'"
+
 # TMP FIX
 RUN /bin/bash -l -c "usermod -d /opt/zammad zammad"
 RUN /bin/bash -l -c "service postgresql start && su - zammad && export RAILS_ENV=production && cd /opt/zammad && export PATH=/opt/zammad/bin:$PATH && export GEM_PATH=/opt/zammad/vendor/bundle/ruby/2.2.0/ && rake db:create && rake db:migrate && rake db:seed"

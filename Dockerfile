@@ -36,7 +36,7 @@ RUN /bin/bash -l -c "echo 'shared_buffers = 2GB' >> /var/lib/pgsql/data/postgres
 RUN /bin/bash -l -c "echo 'temp_buffers = 1GB' >> /var/lib/pgsql/data/postgresql.conf"
 RUN /bin/bash -l -c "echo 'work_mem = 6MB' >> /var/lib/pgsql/data/postgresql.conf"
 RUN /bin/bash -l -c "echo 'max_stack_depth = 2MB' >> /var/lib/pgsql/data/postgresql.conf"
-RUN /bin/bash -l -c "service postgresql start && su - postgres && createuser -s zammad"
+RUN /bin/bash -l -c "service postgresql start && createuser -s zammad"
 
 # TMP FIX
 RUN /bin/bash -l -c "usermod -d /opt/zammad zammad"

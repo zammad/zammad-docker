@@ -10,5 +10,5 @@ build_image:
     - develop
     - tags
   script:
-    - docker build -t zammad .
+    - docker build --pull -t $REGISTRY/zammad:latest .
     - docker push $REGISTRY/zammad:latest

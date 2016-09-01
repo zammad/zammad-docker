@@ -10,5 +10,6 @@ build_image:
     - develop
     - tags
   script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY
     - docker build --pull -t $REGISTRY/zammad:latest .
     - docker push $REGISTRY/zammad:latest

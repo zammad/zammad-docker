@@ -11,6 +11,6 @@ build_image:
     - develop
     - tags
   script:
-    - docker login -u zammad -p '$DOCKERHUB_PW'
+    - docker login -u zammad -p $DOCKERHUB_PW
     - docker build --no-cache --pull -t $DH_REPOSITORY:latest .
     - docker push $DH_REPOSITORY:latest

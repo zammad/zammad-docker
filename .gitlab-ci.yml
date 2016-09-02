@@ -3,7 +3,7 @@ variables:
 
 before_script:
   - docker info
-  - if [["$CI_BUILD_REF_NAME" != master]]; then DH_REPOSITORY="$DH_REPOSITORY/$CI_BUILD_REF_NAME"; fi
+  - if [[$CI_BUILD_REF_NAME != master]]; then DH_REPOSITORY="$DH_REPOSITORY/$CI_BUILD_REF_NAME"; fi
 
 build_image:
   only:

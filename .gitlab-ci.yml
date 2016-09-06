@@ -3,7 +3,6 @@ variables:
 
 before_script:
   - docker info
-  - if [["$CI_BUILD_REF_NAME" != "master"]]; then DH_REPOSITORY="$DH_REPOSITORY/$CI_BUILD_REF_NAME"; fi
 
 build_image:
   only:
@@ -11,6 +10,6 @@ build_image:
     - develop
     - tags
   script:
-    - docker build --no-cache --pull -t $DH_REPOSITORY:latest .
+    - docker build --no-cache --pull -t zammad/zammad:latest .
     - docker login -u zammad -p $DOCKERHUB_PW
-    - docker push $DH_REPOSITORY:latest
+    - docker push zammad/zammad:latest

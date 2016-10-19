@@ -1,6 +1,6 @@
 #!/bin/bash
 
-service postgresql start
+service postgresql-9.6 start
 service elasticsearch start
 service postfix start
 

@@ -5,10 +5,14 @@ before_script:
   - docker info
 
 github:
+  tags:
+    - deploy
   script:
     - scripts/sync_repo.sh git@github.com:zammad/docker.git
 
 build_image:
+  tags:
+    - core
   only:
     - master
     - develop

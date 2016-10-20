@@ -1,9 +1,6 @@
 variables:
   DH_REPOSITORY: zammad
 
-before_script:
-  - docker info
-
 github:
   tags:
     - deploy
@@ -18,4 +15,5 @@ build_image:
     - develop
     - tags
   script:
+    - docker info
     - scripts/build_image.sh

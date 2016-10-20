@@ -6,7 +6,7 @@ before_script:
 
 github:
   script:
-    - build/sync_repo.sh git@github.com:zammad/docker.git
+    - scripts/sync_repo.sh git@github.com:zammad/docker.git
 
 build_image:
   only:
@@ -14,4 +14,4 @@ build_image:
     - develop
     - tags
   script:
-    - build/build_image.sh
+    - scripts/build_image.sh

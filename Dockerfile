@@ -11,9 +11,9 @@ EXPOSE 9200
 RUN rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
 RUN rpm --import https://rpm.packager.io/key
 
-ADD elasticsearch.repo /etc/yum.repos.d/elasticsearch.repo
-ADD zammad.repo /etc/yum.repos.d/zammad.repo
-ADD nginx.repo /etc/yum.repos.d/nginx.repo
+ADD repos/elasticsearch.repo /etc/yum.repos.d/elasticsearch.repo
+ADD repos/zammad.repo /etc/yum.repos.d/zammad.repo
+ADD repos/nginx.repo /etc/yum.repos.d/nginx.repo
 
 # TODO: Install dependencies - should get removed as far as possible when RPM is complete
 RUN yum -y install epel-release
@@ -51,13 +51,13 @@ RUN /bin/bash -l -c "cp /opt/zammad/contrib/nginx/sites-enabled/zammad.conf /etc
 
 RUN /bin/bash -l -c "cd /usr/share/elasticsearch && bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/2.5.0"
 
-ADD setup.sh /tmp/setup.sh
+ADD scripts/setup.sh /tmp/setup.sh
 RUN chmod +x /tmp/setup.sh
 RUN chown zammad /tmp/setup.sh
 RUN /bin/bash -l -c "service postgresql-9.6 start && service elasticsearch start && su - zammad -c '/tmp/setup.sh'"
 
 
-ADD run.sh /run.sh
+ADD scripts/run.sh /run.sh
 RUN chmod +x /run.sh
 
 WORKDIR "/opt/zammad"

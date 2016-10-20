@@ -4,12 +4,15 @@ variables:
 before_script:
   - docker info
 
+github:
+  stage: pre
+  script:
+    - build/sync_repo.sh git@github.com:zammad/docker.git
+
 build_image:
   only:
     - master
     - develop
     - tags
   script:
-    - docker build --no-cache --pull -t zammad/zammad:latest .
-    - docker login -u zammad -p $DOCKERHUB_PW
-    - docker push zammad/zammad:latest
+    - build/build_image.sh

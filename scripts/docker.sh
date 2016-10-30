@@ -42,6 +42,9 @@ su - zammad /bin/bash -l -c "sed -i.bak '/server_name\syour\.domain\.org;/d' /op
 
 chmod +x /tmp/setup.sh
 chown zammad /tmp/setup.sh
-/bin/bash -l -c "service postgresql-9.6 start && service elasticsearch start && su - zammad -c '/tmp/setup.sh'"
+
+# issue#7 - Elasticsearch not ready in docker.sh at execution of setup.sh - sleep 10 until
+#           elasticsearch is accepting network connections
+/bin/bash -l -c "service postgresql-9.6 start && service elasticsearch start && sleep 10 && su - zammad -c '/tmp/setup.sh'"
 
 chmod +x /run.sh

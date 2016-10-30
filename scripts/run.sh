@@ -4,6 +4,13 @@ service postgresql-9.6 start
 service elasticsearch start
 service postfix start
 
+# wait until postgres is ready
+until su - postgres -c 'psql -c "select version()"' &> /dev/null
+do
+    echo "waiting for postgres to be ready..."
+    sleep 20
+done
+
 # scheduler
 zammad run worker start &
 

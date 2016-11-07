@@ -5,7 +5,7 @@ github:
   tags:
     - deploy
   script:
-    - scripts/sync_repo.sh git@github.com:zammad/docker.git
+    - scripts/sync_repo.sh git@github.com:zammad/zammad-docker.git
 
 build_image:
   tags:

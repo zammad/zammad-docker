@@ -12,7 +12,7 @@ What is zammad-docker repo for?
 -------------------------------
 
 This repos is meant to be the starting point for somebody who likes to test zammad. 
-If you like to run zammad in production you should use on of the DEB or RPM packages.
+If you like to run zammad in production you should use one of the DEB or RPM packages.
 
 Getting started with the Zammad Docker image
 --------------------------------------------

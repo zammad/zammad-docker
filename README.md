@@ -8,6 +8,11 @@ twitter, chat and e-mails. It is distributed under the GNU AFFERO General Public
 10.x. Do you receive many e-mails and want to answer them with a team of agents?
 You're going to love Zammad!
 
+What is zammad-docker repo for?
+-------------------------------
+
+This repos is meant to be the starting point for somebody who likes to test zammad. 
+If you like to run zammad in production you should use on of the DEB or RPM packages.
 
 Getting started with the Zammad Docker image
 --------------------------------------------

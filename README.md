@@ -17,5 +17,5 @@ If you like to run zammad in production you should use one of the DEB or RPM pac
 Getting started with the Zammad Docker image
 --------------------------------------------
 
-http://zammad.readthedocs.io/en/latest/install-docker.html
+https://docs.zammad.org/en/latest/install-docker.html
 

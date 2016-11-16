@@ -1,10 +1,14 @@
 #!/bin/bash
 
-systemctl start postgresql
-systemctl start elasticsearch
-systemctl start postfix
-systemctl start nginx
-systemctl start zammad
+service start elasticsearch
+service start postgresql
+service start postfix
+service start nginx
+
+zammad run worker
+zammad run websockets
+zammad run web
+
 
 /bin/bash
 

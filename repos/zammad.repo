@@ -1,4 +1,0 @@
-[zammad]
-name=Repository for zammad/zammad application.
-baseurl=https://rpm.packager.io/gh/zammad/zammad/centos6/stable
-enabled=1

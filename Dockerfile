@@ -1,17 +1,12 @@
-# Zammad ticketing system docker image
-FROM centos:6
-MAINTAINER Thorsten Eckel <thorsten.eckel@znuny.com>
+# Zammad ticketing system docker image for ubuntu
+FROM ubuntu:16.04
+MAINTAINER André Bauer <monotek23@gmail.com>
 
 # Expose ports.
 EXPOSE 80
 EXPOSE 3000
 EXPOSE 6042
 EXPOSE 9200
-
-# add repository contents into docker images
-ADD repos/elasticsearch.repo /etc/yum.repos.d/elasticsearch.repo
-ADD repos/zammad.repo /etc/yum.repos.d/zammad.repo
-ADD repos/nginx.repo /etc/yum.repos.d/nginx.repo
 
 # copy required scripts
 ADD scripts/run.sh /run.sh

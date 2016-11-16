@@ -13,7 +13,6 @@ yum -y install postgresql96 postgresql96-devel postgresql96-server postfix elast
 /bin/bash -l -c "echo 'temp_buffers = 1GB' >> /var/lib/pgsql/9.6/data/postgresql.conf"
 /bin/bash -l -c "echo 'work_mem = 6MB' >> /var/lib/pgsql/9.6/data/postgresql.conf"
 /bin/bash -l -c "echo 'max_stack_depth = 2MB' >> /var/lib/pgsql/9.6/data/postgresql.conf"
-/bin/bash -l -c "service postgresql-9.6 start && su - postgres -c 'createuser -s zammad'"
 
 # TMP FIX
 /bin/bash -l -c "usermod -d /opt/zammad zammad"

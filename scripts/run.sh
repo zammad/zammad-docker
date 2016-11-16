@@ -1,14 +1,15 @@
 #!/bin/bash
 
-service start elasticsearch
-service start postgresql
-service start postfix
-service start nginx
+service postgresql start
+service elasticsearch start
+service postfix start
+service nginx start
 
-zammad run worker
-zammad run websockets
-zammad run web
+sleep 5
 
+zammad run worker &>> /opt/zammad/log/zammad.log &
+zammad run websocket &>> /opt/zammad/log/zammad.log &
+zammad run web &>> /opt/zammad/log/zammad.log &
 
 /bin/bash
 

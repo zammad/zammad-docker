@@ -1,4 +1,4 @@
-# Zammad ticketing system docker image for ubuntu
+# Zammad ticketing system docker image for Ubuntu 16.04
 FROM ubuntu:16.04
 MAINTAINER André Bauer <monotek23@gmail.com>
 ENV DEBIAN_FRONTEND noninteractive

@@ -20,7 +20,7 @@ yum -y install postgresql96 postgresql96-devel postgresql96-server postfix elast
 /bin/bash -l -c "service postgresql-9.6 start && su - zammad -c 'export RAILS_ENV=production && cd /opt/zammad && export PATH=/opt/zammad/bin:$PATH && export GEM_PATH=/opt/zammad/vendor/bundle/ruby/2.3.0/ && rake db:create && rake db:migrate && rake db:seed'"
 
 # TMP FIX set up nginx (should be own package)
-su - zammad /bin/bash -l -c "sed -i.bak '/server_name\syour\.domain\.org;/d' /opt/zammad/contrib/nginx/sites-enabled/zammad.conf"
+su - zammad /bin/bash -l -c "sed -i.bak '/server_name\syour\.domain\.org;/d' /etc/nginx/conf.d/zammad.conf"
 
 /bin/bash -l -c "cd /usr/share/elasticsearch && bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/2.5.0"
 

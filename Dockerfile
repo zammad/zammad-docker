@@ -15,11 +15,9 @@ RUN echo "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d
 # copy required scripts
 ADD scripts/run.sh /run.sh
 ADD scripts/setup.sh /tmp/setup.sh
-
-# install packages etc
 ADD scripts/docker.sh /tmp/docker.sh
 
-# chmod & run docker.sh
+# install packages etc
 RUN chmod +x /tmp/docker.sh
 RUN /bin/bash -l -c /tmp/docker.sh
 

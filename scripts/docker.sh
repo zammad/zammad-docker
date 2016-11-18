@@ -19,7 +19,7 @@ apt-get --no-install-recommends install -q -y postfix
 wget -qO - https://deb.packager.io/key | apt-key add -
 wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
 echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-5.x.list
-echo "deb https://deb.packager.io/gh/zammad/zammad xenial develop" | tee /etc/apt/sources.list.d/zammad.list
+echo "deb https://deb.packager.io/gh/zammad/zammad xenial stable" | tee /etc/apt/sources.list.d/zammad.list
 
 # updating package list again
 apt-get update

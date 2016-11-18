@@ -1,28 +1,26 @@
 #!/bin/bash
 
-service postgresql-9.6 start
+# starting services
+service postgresql start
 service elasticsearch start
 service postfix start
+service nginx start
 
-# wait until postgres is ready
+# wait for postgresql coming up
 until su - postgres -c 'psql -c "select version()"' &> /dev/null
 do
     echo "waiting for postgres to be ready..."
-    sleep 20
+    sleep 5
 done
 
-# scheduler
-zammad run worker start &
+# run zammad
+zammad run worker &>> /opt/zammad/log/zammad.log &
+zammad run websocket &>> /opt/zammad/log/zammad.log &
+zammad run web &>> /opt/zammad/log/zammad.log &
 
-# websockets
-zammad run websocket start &
+# show url
+echo -e "\nZammad is ready! Visit http://localhost in your brwoser!\n"
 
-# puma
-# zammad run web start &
-su - zammad -c 'export PATH=/opt/zammad/bin:$PATH && export GEM_PATH=/opt/zammad/vendor/bundle/ruby/2.3.0/ && ./vendor/bundle/ruby/2.3.0/bin/puma -e production -p 3000' &
-
-service nginx start
-
+# run shell
 /bin/bash
 
-# export PATH=/opt/zammad/bin:$PATH && export GEM_PATH=/opt/zammad/vendor/bundle/ruby/2.3.0/ && ./vendor/bundle/ruby/2.3.0/bin/puma -e production -p 3000

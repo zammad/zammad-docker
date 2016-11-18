@@ -1,33 +1,49 @@
-#! /bin/bash
+#!/bin/bash
 
-rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
-rpm --import https://rpm.packager.io/key
+# updating package list
+apt-get update
 
-# TODO: Install dependencies - should get removed as far as possible when RPM is complete
-yum -y install epel-release
-yum -y install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-6-x86_64/pgdg-redhat96-9.6-3.noarch.rpm
-yum -y install postgresql96 postgresql96-devel postgresql96-server postfix elasticsearch java cronie nginx which zammad
+# install dependencies
+apt-get --no-install-recommends -y install apt-transport-https mc libterm-readline-perl-perl wget openjdk-8-jre locales
 
-/bin/bash -l -c "echo 'max_connections = 200' >> /var/lib/pgsql/9.6/data/postgresql.conf"
-/bin/bash -l -c "echo 'shared_buffers = 2GB' >> /var/lib/pgsql/9.6/data/postgresql.conf"
-/bin/bash -l -c "echo 'temp_buffers = 1GB' >> /var/lib/pgsql/9.6/data/postgresql.conf"
-/bin/bash -l -c "echo 'work_mem = 6MB' >> /var/lib/pgsql/9.6/data/postgresql.conf"
-/bin/bash -l -c "echo 'max_stack_depth = 2MB' >> /var/lib/pgsql/9.6/data/postgresql.conf"
+## setting locale to en_US.UTF-8 (needed for postgresql)
+locale-gen en_US.UTF-8
+echo "LANG=en_US.UTF-8" > /etc/default/locale
 
-# TMP FIX
-/bin/bash -l -c "usermod -d /opt/zammad zammad"
-/bin/bash -l -c "service postgresql-9.6 start && su - zammad -c 'export RAILS_ENV=production && cd /opt/zammad && export PATH=/opt/zammad/bin:$PATH && export GEM_PATH=/opt/zammad/vendor/bundle/ruby/2.3.0/ && rake db:create && rake db:migrate && rake db:seed'"
+# install postfix
+echo "postfix postfix/main_mailer_type string Internet site" > preseed.txt
+debconf-set-selections preseed.txt
+apt-get --no-install-recommends install -q -y postfix
 
-# TMP FIX set up nginx (should be own package)
-su - zammad /bin/bash -l -c "sed -i.bak '/server_name\syour\.domain\.org;/d' /etc/nginx/conf.d/zammad.conf"
+# configure zammad & elasticsearch repos & keys
+wget -qO - https://deb.packager.io/key | apt-key add -
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
+echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-5.x.list
+echo "deb https://deb.packager.io/gh/zammad/zammad xenial develop" | tee /etc/apt/sources.list.d/zammad.list
 
-/bin/bash -l -c "cd /usr/share/elasticsearch && bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/2.5.0"
+# updating package list again
+apt-get update
 
+# install elasticsearch & attachment plugin
+apt-get --no-install-recommends -y install elasticsearch
+cd /usr/share/elasticsearch && bin/elasticsearch-plugin install mapper-attachments
+
+# install zammad
+apt-get --no-install-recommends -y install zammad
+
+# postgresql config
+echo 'max_connections = 200' >> /etc/postgresql/9.5/main/postgresql.conf
+echo 'shared_buffers = 2GB' >> /etc/postgresql/9.5/main/postgresql.conf
+echo 'temp_buffers = 1GB' >> /etc/postgresql/9.5/main/postgresql.conf
+echo 'work_mem = 6MB' >> /etc/postgresql/9.5/main/postgresql.conf
+echo 'max_stack_depth = 2MB' >> /etc/postgresql/9.5/main/postgresql.conf
+
+# changeing script permissions & owner
 chmod +x /tmp/setup.sh
 chown zammad /tmp/setup.sh
 
-# issue#7 - Elasticsearch not ready in docker.sh at execution of setup.sh - sleep 10 until
-#           elasticsearch is accepting network connections
-/bin/bash -l -c "service postgresql-9.6 start && service elasticsearch start && sleep 10 && su - zammad -c '/tmp/setup.sh'"
+# Elasticsearch not ready in docker.sh at execution of setup.sh - sleep 10 until elasticsearch is accepting network connections
+service postgresql start && service elasticsearch start && sleep 10 && su - zammad -c '/tmp/setup.sh'
 
 chmod +x /run.sh
+

@@ -2,6 +2,7 @@
 FROM ubuntu:16.04
 MAINTAINER André Bauer <monotek23@gmail.com>
 ENV DEBIAN_FRONTEND noninteractive
+WORKDIR "/opt/zammad"
 
 # Expose ports
 EXPOSE 80
@@ -9,18 +10,17 @@ EXPOSE 3000
 EXPOSE 6042
 EXPOSE 9200
 
-# fixing service start
-RUN echo "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d
-
 # copy required scripts
 ADD scripts/run.sh /run.sh
 ADD scripts/setup.sh /tmp/setup.sh
 ADD scripts/docker.sh /tmp/docker.sh
 
-# install packages etc
+# fixing service start
+RUN echo "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d
+
+# install packages
 RUN chmod +x /tmp/docker.sh
 RUN /bin/bash -l -c /tmp/docker.sh
 
-WORKDIR "/opt/zammad"
-
+# docker init
 CMD ["/bin/bash", "/run.sh"]

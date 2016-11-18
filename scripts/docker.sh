@@ -21,7 +21,7 @@ wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
 echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-5.x.list
 echo "deb https://deb.packager.io/gh/zammad/zammad xenial develop" | tee /etc/apt/sources.list.d/zammad.list
 
-# updating package list
+# updating package list again
 apt-get update
 
 # install elasticsearch & attachment plugin
@@ -38,7 +38,7 @@ echo 'temp_buffers = 1GB' >> /etc/postgresql/9.5/main/postgresql.conf
 echo 'work_mem = 6MB' >> /etc/postgresql/9.5/main/postgresql.conf
 echo 'max_stack_depth = 2MB' >> /etc/postgresql/9.5/main/postgresql.conf
 
-# changeing script permissions
+# changeing script permissions & owner
 chmod +x /tmp/setup.sh
 chown zammad /tmp/setup.sh
 

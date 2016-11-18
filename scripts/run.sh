@@ -18,6 +18,9 @@ zammad run worker &>> /opt/zammad/log/zammad.log &
 zammad run websocket &>> /opt/zammad/log/zammad.log &
 zammad run web &>> /opt/zammad/log/zammad.log &
 
+# show url
+echo -e "\nZammad is ready! Visit http://localhost in your brwoser!\n"
+
 # run shell
 /bin/bash
 

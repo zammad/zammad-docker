@@ -5,7 +5,7 @@ ARG PACKAGER_REPO
 ARG BUILD_DATE
 WORKDIR "/opt/zammad"
 
-LABEL org.label-schema.build-date=$BUILD_DATE \
+LABEL org.label-schema.build-date="$BUILD_DATE" \
       org.label-schema.name="Zammad" \
       org.label-schema.license="AGPL-3.0" \
       org.label-schema.description="Docker container for Zammad" \
@@ -14,7 +14,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-type="Git" \
       org.label-schema.vendor="Zammad" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.docker.cmd="docker run -ti -p 80:80 monotek/zammad:develop"
+      org.label-schema.docker.cmd="docker run -ti -p 80:80 zammad/zammad:develop"
 
 # Expose ports
 EXPOSE 80

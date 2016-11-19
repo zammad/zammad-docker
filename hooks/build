@@ -9,6 +9,6 @@ PACKAGER_REPOS="stable develop"
 for PACKAGER_REPO in ${PACKAGER_REPOS}; do
 
     echo "Build Zammad Docker image from Packager.io ${PACKAGER_REPO} repo"
-    docker build --build-arg PACKAGER_REPO=${PACKAGER_REPO} -t ${IMAGE_NAME}:${PACKAGER_REPO}
+    docker build --build-arg PACKAGER_REPO=${PACKAGER_REPO} -t ${DOCKER_REPO}:${PACKAGER_REPO}
 
 done

@@ -4,11 +4,11 @@
 # builds stable and develop images from only one branch
 #
 
-PACKAGER_REPOS="stable develop"
+. "hooks/config"
 
 for PACKAGER_REPO in ${PACKAGER_REPOS}; do
 
-    echo "Build Zammad Docker image from Packager.io ${PACKAGER_REPO} repo"
-    docker build --build-arg PACKAGER_REPO=${PACKAGER_REPO} -t ${DOCKER_REPO}:${PACKAGER_REPO}
+    echo "Build Zammad Docker image from Packager.io ${PACKAGER_REPO} repo for DockerHubs ${DOCKER_REPO} repo"
+    docker build --build-arg PACKAGER_REPO=${PACKAGER_REPO} --build-arg BUILD_DATE=$(date -u +”%Y-%m-%dT%H:%M:%SZ”) -t ${DOCKER_REPO}:${PACKAGER_REPO} .
 
 done

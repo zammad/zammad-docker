@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if [ -z "${PACKAGER_REPO}" ]; then
-    PACKAGER_REPO="develop"
-fi
+# setting debian frontend
+DEBIAN_FRONTEND=noninteractive
+export DEBIAN_FRONTEND
 
 # updating package list
-apt-get update
+apt-get update 
 
 # install dependencies
 apt-get --no-install-recommends -y install apt-transport-https mc libterm-readline-perl-perl wget openjdk-8-jre locales

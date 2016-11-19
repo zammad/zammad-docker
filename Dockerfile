@@ -1,9 +1,20 @@
 # Zammad ticketing system docker image for Ubuntu 16.04
 FROM ubuntu:16.04
 MAINTAINER André Bauer <monotek23@gmail.com>
-ENV DEBIAN_FRONTEND noninteractive
-ARG PACKAGER_REPO=develop
+ARG PACKAGER_REPO
+ARG BUILD_DATE
 WORKDIR "/opt/zammad"
+
+LABEL org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.name="Zammad" \
+      org.label-schema.license="AGPL-3.0" \
+      org.label-schema.description="Docker container for Zammad" \
+      org.label-schema.url="https://zammad.org" \
+      org.label-schema.vcs-url="https://github.com/zammad/zammad" \
+      org.label-schema.vcs-type="Git" \
+      org.label-schema.vendor="Zammad" \
+      org.label-schema.schema-version="1.0" \
+      org.label-schema.docker.cmd="docker run -ti -p 80:80 monotek/zammad:develop"
 
 # Expose ports
 EXPOSE 80

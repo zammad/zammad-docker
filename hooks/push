@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# build hook for dockerhubs autobuild feature
+# pushes stable and develop images from only one branch
+#
+
+. "hooks/config"
+
+for PACKAGER_REPO in ${PACKAGER_REPOS}; do
+
+    echo "Push Zammad Docker image from Packager.io ${PACKAGER_REPO} repo to DockerHubs ${DOCKER_REPO} repo"
+    docker push ${DOCKER_REPO}:${PACKAGER_REPO}
+
+done

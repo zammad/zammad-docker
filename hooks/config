@@ -4,3 +4,5 @@
 #
 
 PACKAGER_REPOS="stable develop"
+CREATE_LATEST="no"
+LATEST_REPO="develop"

@@ -8,7 +8,14 @@
 
 for PACKAGER_REPO in ${PACKAGER_REPOS}; do
 
-    echo "Build Zammad Docker image from Packager.io ${PACKAGER_REPO} repo for DockerHubs ${DOCKER_REPO} repo"
+    echo "Build Zammad Docker image from Packager.io ${PACKAGER_REPO} repo for DockerHubs ${DOCKER_REPO}:${PACKAGER_REPO} repo"
     docker build --build-arg PACKAGER_REPO=${PACKAGER_REPO} --build-arg BUILD_DATE=$(date -u +”%Y-%m-%dT%H:%M:%SZ”) -t ${DOCKER_REPO}:${PACKAGER_REPO} .
 
 done
+
+if [ "${CREATE_LATEST}" == "yes" ]; then
+
+    echo "Build Zammad Docker image from Packager.io ${LATEST_REPO} repo for DockerHubs ${DOCKER_REPO}:latest repo"
+    docker build --build-arg PACKAGER_REPO=${LATEST_REPO} --build-arg BUILD_DATE=$(date -u +”%Y-%m-%dT%H:%M:%SZ”) -t ${DOCKER_REPO}:latest .
+
+fi

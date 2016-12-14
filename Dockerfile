@@ -1,6 +1,6 @@
 # Zammad ticketing system docker image for Ubuntu 16.04
 FROM ubuntu:16.04
-MAINTAINER André Bauer <andre.bauer@zammad.org>
+MAINTAINER Zammad.org <info@zammad.org>
 ARG PACKAGER_REPO
 ARG BUILD_DATE
 WORKDIR "/opt/zammad"

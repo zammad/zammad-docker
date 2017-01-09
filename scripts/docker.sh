@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+#set -e
 
 # setting debian frontend
 DEBIAN_FRONTEND=noninteractive

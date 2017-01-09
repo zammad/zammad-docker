@@ -1,11 +1,13 @@
 #!/bin/bash
 
+set -e
+
 # setting debian frontend
 DEBIAN_FRONTEND=noninteractive
 export DEBIAN_FRONTEND
 
 # updating package list
-apt-get update 
+apt-get update
 
 # install dependencies
 apt-get --no-install-recommends -y install apt-transport-https mc libterm-readline-perl-perl wget openjdk-8-jre locales
@@ -29,6 +31,7 @@ echo "deb https://deb.packager.io/gh/zammad/zammad xenial ${PACKAGER_REPO}" | te
 apt-get update
 
 # install elasticsearch & attachment plugin
+sysctl -w vm.max_map_count=262144
 apt-get --no-install-recommends -y install elasticsearch
 cd /usr/share/elasticsearch && bin/elasticsearch-plugin install mapper-attachments
 

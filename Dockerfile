@@ -13,7 +13,7 @@ LABEL org.label-schema.build-date="$BUILD_DATE" \
       org.label-schema.vcs-url="https://github.com/zammad/zammad" \
       org.label-schema.vcs-type="Git" \
       org.label-schema.vendor="Zammad" \
-      org.label-schema.schema-version="1.0" \
+      org.label-schema.schema-version="1.2" \
       org.label-schema.docker.cmd="docker run -ti -p 80:80 zammad/zammad:develop"
 
 # Expose ports

@@ -5,6 +5,8 @@ ARG PACKAGER_REPO
 ARG BUILD_DATE
 WORKDIR "/opt/zammad"
 
+ENV RAILS_ENV production
+
 LABEL org.label-schema.build-date="$BUILD_DATE" \
       org.label-schema.name="Zammad" \
       org.label-schema.license="AGPL-3.0" \
@@ -22,17 +24,18 @@ EXPOSE 3000
 EXPOSE 6042
 EXPOSE 9200
 
-# copy required scripts
-ADD scripts/run.sh /run.sh
-ADD scripts/setup.sh /tmp/setup.sh
-ADD scripts/docker.sh /tmp/docker.sh
-
 # fixing service start
 RUN echo "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d
 
-# install packages
-RUN chmod +x /tmp/docker.sh
-RUN PACKAGER_REPO="$PACKAGER_REPO" /bin/bash -l -c /tmp/docker.sh
+# install zammad
+COPY scripts/install-zammad.sh /tmp
+RUN chmod +x /tmp/install-zammad.sh;/bin/bash -l -c /tmp/install-zammad.sh
+
+# cleanup
+RUN rm -rf /var/lib/apt/lists/*
 
 # docker init
-CMD ["/bin/bash", "/run.sh"]
+COPY scripts/docker-entrypoint.sh /
+RUN chown zammad:zammad /docker-entrypoint.sh;chmod +x /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["zammad"]

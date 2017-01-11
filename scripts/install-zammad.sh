@@ -2,15 +2,18 @@
 
 #set -e
 
-# setting debian frontend
-DEBIAN_FRONTEND=noninteractive
-export DEBIAN_FRONTEND
+if [ -z "${PACKAGER_REPO}" ]; then
+    PACKAGER_REPO="develop"
+fi
+
+# set env
+export DEBIAN_FRONTEND=noninteractive
 
 # updating package list
 apt-get update
 
 # install dependencies
-apt-get --no-install-recommends -y install apt-transport-https mc libterm-readline-perl-perl wget openjdk-8-jre locales
+apt-get --no-install-recommends -y install apt-transport-https curl libterm-readline-perl-perl locales mc net-tools openjdk-8-jre telnet wget
 
 ## setting locale to en_US.UTF-8 (needed for postgresql)
 locale-gen en_US.UTF-8
@@ -31,7 +34,6 @@ echo "deb https://deb.packager.io/gh/zammad/zammad xenial ${PACKAGER_REPO}" | te
 apt-get update
 
 # install elasticsearch & attachment plugin
-sysctl -w vm.max_map_count=262144
 apt-get --no-install-recommends -y install elasticsearch
 cd /usr/share/elasticsearch && bin/elasticsearch-plugin install mapper-attachments
 
@@ -45,12 +47,7 @@ echo 'temp_buffers = 1GB' >> /etc/postgresql/9.5/main/postgresql.conf
 echo 'work_mem = 6MB' >> /etc/postgresql/9.5/main/postgresql.conf
 echo 'max_stack_depth = 2MB' >> /etc/postgresql/9.5/main/postgresql.conf
 
-# changeing script permissions & owner
-chmod +x /tmp/setup.sh
-chown zammad /tmp/setup.sh
-
-# Elasticsearch not ready in docker.sh at execution of setup.sh - sleep 10 until elasticsearch is accepting network connections
-service postgresql start && service elasticsearch start && sleep 10 && su - zammad -c '/tmp/setup.sh'
-
-chmod +x /run.sh
+# start postgres & elasticsearch
+service postgresql start
+service elasticsearch start
 

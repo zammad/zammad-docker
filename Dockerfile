@@ -1,6 +1,5 @@
 FROM ruby:2.3.1
 MAINTAINER Zammad.org <info@zammad.org>
-ARG PACKAGER_REPO
 ARG BUILD_DATE
 
 ENV ZAMMAD_DIR /opt/zammad

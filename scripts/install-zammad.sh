@@ -56,6 +56,9 @@ elif [ "${RAILS_ENV}" == "development" ]; then
     bundle install --without mysql
 fi
 
+# fetch locales
+contrib/packager.io/fetch_locales.rb
+
 # create db & user
 ZAMMAD_DB_PASS="$(tr -dc A-Za-z0-9 < /dev/urandom | head -c10)"
 su - postgres -c "createdb -E UTF8 ${ZAMMAD_DB}"
@@ -68,9 +71,6 @@ sed -e "s#.*adapter:.*#  adapter: postgresql#" -e "s#.*username:.*#  username: $
 # populate database
 bundle exec rake db:migrate
 bundle exec rake db:seed
-
-# fetch locales
-contrib/packager.io/fetch_locales.rb
 
 # assets precompile
 bundle exec rake assets:precompile

@@ -20,7 +20,7 @@ LABEL org.label-schema.build-date="$BUILD_DATE" \
       org.label-schema.vcs-type="Git" \
       org.label-schema.vendor="Zammad" \
       org.label-schema.schema-version="1.2" \
-      org.label-schema.docker.cmd="docker run -ti -p 80:80 zammad/zammad:develop"
+      org.label-schema.docker.cmd="docker run -ti -p 80:80 zammad/zammad"
 
 # Expose ports
 EXPOSE 80

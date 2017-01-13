@@ -1,8 +1,0 @@
-#!/bin/bash
-#
-# build hooks packager.io repo configfile
-#
-
-PACKAGER_REPOS="stable develop"
-CREATE_LATEST="no"
-LATEST_REPO="develop"

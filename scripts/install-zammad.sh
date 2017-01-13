@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#set -e
+set -ex
 
 if [ -z "${PACKAGER_REPO}" ]; then
     PACKAGER_REPO="develop"

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 if [ "$1" = 'zammad' ]; then
 
     # starting services
@@ -8,33 +10,20 @@ if [ "$1" = 'zammad' ]; then
     service postfix start
     service nginx start
 
-    # wait for postgresql coming up
-    until su - postgres -c 'psql -c "select version()"' &> /dev/null
-    do
-	echo "waiting for postgres to be ready..."
-	sleep 5
-    done
+    cd ${ZAMMAD_DIR}
+    echo "starting zammad...."
+    su -c "bundle exec script/websocket-server.rb -b 0.0.0.0 start &>> ${ZAMMAD_DIR}/log/zammad.log &" zammad
+    su -c "bundle exec script/scheduler.rb start &>> ${ZAMMAD_DIR}/log/zammad.log &" zammad
 
-    # wait for elasticsearch coming up
-    until curl -GET localhost:9200 &> /dev/null
-    do
-	echo "waiting for elasticsearch to be ready..."
-	sleep 5
-    done
+    if [ "${RAILS_SERVER}" == "puma" ]; then
+	su -c "bundle exec puma -b tcp://0.0.0.0:3000 -e ${RAILS_ENV} &>> ${ZAMMAD_DIR}/log/zammad.log &" zammad
+    elif [ "${RAILS_SERVER}" == "unicorn" ]; then
+	su -c "bundle exec unicorn -p 3000 -c config/unicorn.rb -E ${RAILS_ENV} &>> ${ZAMMAD_DIR}/log/zammad.log &" zammad
+    fi
 
-    # build elasticsearch search index
-    zammad run rails r "Setting.set('es_url', 'http://localhost:9200')"
-    zammad run rake searchindex:rebuild
-
-    # run zammad
-    zammad run worker &>> /opt/zammad/log/zammad.log &
-    zammad run websocket &>> /opt/zammad/log/zammad.log &
-    zammad run web &>> /opt/zammad/log/zammad.log &
-
-    until curl -GET localhost:3000 &> /dev/null
-    do
+    until curl -GET localhost:3000 &> /dev/null; do
 	echo "waiting for zammad to be ready..."
-	sleep 5
+	sleep 2
     done
 
     # show url

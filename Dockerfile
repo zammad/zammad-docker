@@ -1,17 +1,21 @@
-# Zammad ticketing system docker image for Ubuntu 16.04
-FROM ubuntu:16.04
+FROM ruby:2.3.1
 MAINTAINER Zammad.org <info@zammad.org>
 ARG PACKAGER_REPO
 ARG BUILD_DATE
-WORKDIR "/opt/zammad"
 
+ENV ZAMMAD_DIR /opt/zammad
+ENV ZAMMAD_DB zammad
+ENV ZAMMAD_DB_USER zammad
 ENV RAILS_ENV production
+ENV RAILS_SERVER puma
+ENV GIT_URL https://github.com/zammad/zammad.git
+ENV GIT_BRANCH develop
 ENV ES_SKIP_SET_KERNEL_PARAMETERS true
 
 LABEL org.label-schema.build-date="$BUILD_DATE" \
       org.label-schema.name="Zammad" \
       org.label-schema.license="AGPL-3.0" \
-      org.label-schema.description="Docker container for Zammad" \
+      org.label-schema.description="Zammad Docker container for easy testing" \
       org.label-schema.url="https://zammad.org" \
       org.label-schema.vcs-url="https://github.com/zammad/zammad" \
       org.label-schema.vcs-type="Git" \
@@ -21,9 +25,6 @@ LABEL org.label-schema.build-date="$BUILD_DATE" \
 
 # Expose ports
 EXPOSE 80
-EXPOSE 3000
-EXPOSE 6042
-EXPOSE 9200
 
 # fixing service start
 RUN echo "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d

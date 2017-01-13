@@ -2,52 +2,88 @@
 
 set -ex
 
-if [ -z "${PACKAGER_REPO}" ]; then
-    PACKAGER_REPO="develop"
-fi
-
 # set env
 export DEBIAN_FRONTEND=noninteractive
+
+# adding backport (openjdk)
+echo "deb http://ftp.de.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/backports.list
 
 # updating package list
 apt-get update
 
 # install dependencies
-apt-get --no-install-recommends -y install apt-transport-https curl libterm-readline-perl-perl locales mc net-tools openjdk-8-jre telnet wget
-
-## setting locale to en_US.UTF-8 (needed for postgresql)
-locale-gen en_US.UTF-8
-echo "LANG=en_US.UTF-8" > /etc/default/locale
+apt-get --no-install-recommends -y install apt-transport-https libterm-readline-perl-perl locales mc net-tools nginx openjdk-8-jre
 
 # install postfix
 echo "postfix postfix/main_mailer_type string Internet site" > preseed.txt
 debconf-set-selections preseed.txt
 apt-get --no-install-recommends install -q -y postfix
 
-# configure zammad & elasticsearch repos & keys
-wget -qO - https://deb.packager.io/key | apt-key add -
+# install postgresql server
+locale-gen en_US.UTF-8
+localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+echo "LANG=en_US.UTF-8" > /etc/default/locale
+apt-get --no-install-recommends install -q -y postgresql
+
+# configure elasticsearch repo & key
 wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
 echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-5.x.list
-echo "deb https://deb.packager.io/gh/zammad/zammad xenial ${PACKAGER_REPO}" | tee /etc/apt/sources.list.d/zammad.list
 
 # updating package list again
 apt-get update
 
 # install elasticsearch & attachment plugin
+update-ca-certificates -f
 apt-get --no-install-recommends -y install elasticsearch
 cd /usr/share/elasticsearch && bin/elasticsearch-plugin install mapper-attachments
-
-# install zammad
-apt-get --no-install-recommends -y install zammad
-
-# postgresql config
-echo 'max_connections = 200' >> /etc/postgresql/9.5/main/postgresql.conf
-echo 'shared_buffers = 2GB' >> /etc/postgresql/9.5/main/postgresql.conf
-echo 'temp_buffers = 1GB' >> /etc/postgresql/9.5/main/postgresql.conf
-echo 'work_mem = 6MB' >> /etc/postgresql/9.5/main/postgresql.conf
-echo 'max_stack_depth = 2MB' >> /etc/postgresql/9.5/main/postgresql.conf
-
-# start postgres & elasticsearch
-service postgresql start
 service elasticsearch start
 
+# create zammad user
+useradd -M -d "${ZAMMAD_DIR}" -s /bin/bash zammad
+
+# git clone zammad
+cd $(dirname "${ZAMMAD_DIR}")
+git clone "${GIT_URL}"
+
+# switch to git branch
+cd "${ZAMMAD_DIR}"
+git checkout "${GIT_BRANCH}"
+
+# install zammad
+if [ "${RAILS_ENV}" == "production" ]; then
+    bundle install --without test development mysql
+elif [ "${RAILS_ENV}" == "development" ]; then
+    bundle install --without mysql
+fi
+
+# create db & user
+ZAMMAD_DB_PASS="$(tr -dc A-Za-z0-9 < /dev/urandom | head -c10)"
+su - postgres -c "createdb -E UTF8 ${ZAMMAD_DB}"
+echo "CREATE USER \"${ZAMMAD_DB_USER}\" WITH PASSWORD '${ZAMMAD_DB_PASS}';" | su - postgres -c psql 
+echo "GRANT ALL PRIVILEGES ON DATABASE \"${ZAMMAD_DB}\" TO \"${ZAMMAD_DB_USER}\";" | su - postgres -c psql
+
+# create database.yml
+sed -e "s#.*adapter:.*#  adapter: postgresql#" -e "s#.*username:.*#  username: ${ZAMMAD_DB_USER}#" -e "s#.*password:.*#  password: ${ZAMMAD_DB_PASS}#" -e "s#.*database:.*#  database: ${ZAMMAD_DB}\n  host: localhost#" < ${ZAMMAD_DIR}/config/database.yml.pkgr > ${ZAMMAD_DIR}/config/database.yml
+
+# populate database
+bundle exec rake db:migrate
+bundle exec rake db:seed
+
+# fetch locales
+contrib/packager.io/fetch_locales.rb
+
+# assets precompile
+bundle exec rake assets:precompile
+
+# delete assets precompile cache
+rm -r tmp/cache
+
+# create es searchindex
+bundle exec rails r "Setting.set('es_url', 'http://localhost:9200')"
+bundle exec rake searchindex:rebuild
+
+# copy nginx zammad config
+cp ${ZAMMAD_DIR}/contrib/nginx/zammad.conf /etc/nginx/sites-enabled/zammad.conf
+
+# set user & group to zammad
+chown -R zammad:zammad "${ZAMMAD_DIR}"

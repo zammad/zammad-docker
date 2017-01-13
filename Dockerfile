@@ -6,6 +6,7 @@ ARG BUILD_DATE
 WORKDIR "/opt/zammad"
 
 ENV RAILS_ENV production
+ENV ES_SKIP_SET_KERNEL_PARAMETERS true
 
 LABEL org.label-schema.build-date="$BUILD_DATE" \
       org.label-schema.name="Zammad" \

@@ -21,6 +21,12 @@ if [ "$1" = 'zammad' ]; then
 	su -c "bundle exec unicorn -p 3000 -c config/unicorn.rb -E ${RAILS_ENV} &>> ${ZAMMAD_DIR}/log/zammad.log &" zammad
     fi
 
+    # wait for all postgres /& zammad processes coming up
+    until su - postgres -c 'psql -c "select version()"' &> /dev/null; do
+	echo "waiting for postgres to be ready..."
+	sleep 2
+    done
+
     until curl -GET localhost:3000 &> /dev/null; do
 	echo "waiting for zammad to be ready..."
 	sleep 2

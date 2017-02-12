@@ -11,8 +11,12 @@ echo "deb http://ftp.de.debian.org/debian jessie-backports main" > /etc/apt/sour
 # updating package list
 apt-get update
 
+# fix java - see https://bugs.debian.org/775775 and https://github.com/docker-library/java/issues/19#issuecomment-70546872
+JAVA_DEBIAN_VERSION="8u121-b13-1~bpo8+1"
+CA_CERTIFICATES_JAVA_VERSION="20161107~bpo8+1"
+
 # install dependencies
-apt-get --no-install-recommends -y install apt-transport-https libterm-readline-perl-perl locales mc net-tools nginx openjdk-8-jre
+apt-get --no-install-recommends -y install apt-transport-https libterm-readline-perl-perl locales mc net-tools nginx openjdk-8-jre openjdk-8-jre-headless="$JAVA_DEBIAN_VERSION" ca-certificates-java="$CA_CERTIFICATES_JAVA_VERSION"
 
 # install postfix
 echo "postfix postfix/main_mailer_type string Internet site" > preseed.txt

@@ -42,7 +42,7 @@ service elasticsearch start
 useradd -M -d "${ZAMMAD_DIR}" -s /bin/bash zammad
 
 # git clone zammad
-cd $(dirname "${ZAMMAD_DIR}")
+cd "$(dirname "${ZAMMAD_DIR}")"
 git clone "${GIT_URL}"
 
 # switch to git branch

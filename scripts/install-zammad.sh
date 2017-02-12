@@ -12,7 +12,7 @@ echo "deb http://ftp.de.debian.org/debian jessie-backports main" > /etc/apt/sour
 apt-get update
 
 # install dependencies
-apt-get --no-install-recommends -y install apt-transport-https libterm-readline-perl-perl locales mc net-tools nginx openjdk-8-jre openjdk-8-jre-headless ca-certificates-java
+apt-get --no-install-recommends -y install apt-transport-https libterm-readline-perl-perl locales mc net-tools nginx openjdk-8-jre
 
 # install postfix
 echo "postfix postfix/main_mailer_type string Internet site" > preseed.txt
@@ -62,7 +62,7 @@ contrib/packager.io/fetch_locales.rb
 # create db & user
 ZAMMAD_DB_PASS="$(tr -dc A-Za-z0-9 < /dev/urandom | head -c10)"
 su - postgres -c "createdb -E UTF8 ${ZAMMAD_DB}"
-echo "CREATE USER \"${ZAMMAD_DB_USER}\" WITH PASSWORD '${ZAMMAD_DB_PASS}';" | su - postgres -c psql 
+echo "CREATE USER \"${ZAMMAD_DB_USER}\" WITH PASSWORD '${ZAMMAD_DB_PASS}';" | su - postgres -c psql
 echo "GRANT ALL PRIVILEGES ON DATABASE \"${ZAMMAD_DB}\" TO \"${ZAMMAD_DB_USER}\";" | su - postgres -c psql
 
 # create database.yml

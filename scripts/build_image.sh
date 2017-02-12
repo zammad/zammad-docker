@@ -12,6 +12,6 @@ if [ -z $1 ] || [ -z $2 ] || [ -z $3 ]  ; then
     exit 1
 fi
 
-docker build --no-cache --pull --build-arg ${GIT_BRANCH} --build-arg BUILD_DATE=$(date -u +”%Y-%m-%dT%H:%M:%SZ”) -t ${DOCKER_LOGIN}/${DOCKER_REPO}:latest .
+docker image build --no-cache --pull --build-arg ${GIT_BRANCH} --build-arg BUILD_DATE=$(date -u +”%Y-%m-%dT%H:%M:%SZ”) -t ${DOCKER_LOGIN}/${DOCKER_REPO}:latest .
 docker login -u ${DOCKER_LOGIN} -p ${DOCKER_PASS}
-docker push ${DOCKER_LOGIN}/${DOCKER_REPO}:latest
+docker image push ${DOCKER_LOGIN}/${DOCKER_REPO}:latest

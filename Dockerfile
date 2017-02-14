@@ -33,7 +33,7 @@ COPY scripts/install-zammad.sh /tmp
 RUN chmod +x /tmp/install-zammad.sh;/bin/bash -l -c /tmp/install-zammad.sh
 
 # cleanup
-RUN rm -rf /var/lib/apt/lists/*
+RUN rm -rf /var/lib/apt/lists/* preseed.txt
 
 # docker init
 COPY scripts/docker-entrypoint.sh /

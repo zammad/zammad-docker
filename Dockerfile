@@ -5,7 +5,7 @@ ARG BUILD_DATE
 ENV ZAMMAD_DIR /opt/zammad
 ENV ZAMMAD_DB zammad
 ENV ZAMMAD_DB_USER zammad
-ENV RAILS_ENV production
+ENV RAILS_ENV development
 ENV RAILS_SERVER puma
 ENV GIT_URL https://github.com/zammad/zammad.git
 ENV GIT_BRANCH develop

@@ -55,9 +55,9 @@ git checkout "${GIT_BRANCH}"
 
 # install zammad
 if [ "${RAILS_ENV}" == "production" ]; then
-    bundle install --without test development mysql
+  bundle install --without test development mysql
 elif [ "${RAILS_ENV}" == "development" ]; then
-    bundle install --without mysql
+  bundle install --without mysql
 fi
 
 # fetch locales

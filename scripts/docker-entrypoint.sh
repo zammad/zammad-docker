@@ -20,7 +20,7 @@ if [ "$1" = 'zammad' ]; then
   echo "starting zammad...."
   su -c "bundle exec script/websocket-server.rb -b 0.0.0.0 start &>> ${ZAMMAD_DIR}/log/zammad.log &" zammad
   su -c "bundle exec script/scheduler.rb start &>> ${ZAMMAD_DIR}/log/zammad.log &" zammad
-  
+
   if [ "${RAILS_SERVER}" == "puma" ]; then
     su -c "bundle exec puma -b tcp://0.0.0.0:3000 -e ${RAILS_ENV} &>> ${ZAMMAD_DIR}/log/zammad.log &" zammad
   elif [ "${RAILS_SERVER}" == "unicorn" ]; then
@@ -28,7 +28,7 @@ if [ "$1" = 'zammad' ]; then
   fi
 
   # wait for zammad processe coming up
-  until curl -GET localhost:3000 &> /dev/null; do
+  until (echo > /dev/tcp/localhost/3000) &> /dev/null; do
     echo "waiting for zammad to be ready..."
     sleep 2
   done

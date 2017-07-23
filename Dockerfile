@@ -38,6 +38,6 @@ RUN rm -rf /var/lib/apt/lists/* preseed.txt
 
 # docker init
 COPY scripts/docker-entrypoint.sh /
-RUN chown zammad:zammad /docker-entrypoint.sh;chmod +x /docker-entrypoint.sh
+RUN chown ${ZAMMAD_USER}:${ZAMMAD_USER} /docker-entrypoint.sh;chmod +x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["zammad"]

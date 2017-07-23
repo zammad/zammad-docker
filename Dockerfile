@@ -3,6 +3,7 @@ MAINTAINER Zammad.org <info@zammad.org>
 ARG BUILD_DATE
 
 ENV ZAMMAD_DIR /opt/zammad
+ENV ZAMMAD_USER zammad
 ENV ZAMMAD_DB zammad
 ENV ZAMMAD_DB_USER zammad
 ENV RAILS_ENV production

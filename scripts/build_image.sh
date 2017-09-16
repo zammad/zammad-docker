@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -ex
+
 if [ "${TRAVIS}" == 'true' ]; then
   echo "Build Zammad Docker image with version ${TRAVIS_BUILD_NUMBER} for DockerHubs ${DOCKER_REGISTRY}/${GITHUB_USERNAME}/${DOCKER_REPOSITORY} repo"
 

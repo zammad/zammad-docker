@@ -3,13 +3,21 @@
 set -ex
 
 if [ "${TRAVIS}" == 'true' ]; then
+  if [ -n "${ZAMMAD_VERSION}" ]; then
+    DOCKER_TAG="-t ${DOCKER_REGISTRY}/${GITHUB_USERNAME}/${DOCKER_REPOSITORY}:${ZAMMAD_VERSION}"
+  else
+    ZAMMAD_VERSION="latest"
+  fi
+
   echo "Build Zammad Docker image with version ${ZAMMAD_VERSION} for DockerHubs ${DOCKER_REGISTRY}/${GITHUB_USERNAME}/${DOCKER_REPOSITORY} repo"
 
-  docker build --pull --no-cache --build-arg BUILD_DATE=$(date -u +”%Y-%m-%dT%H:%M:%SZ”) -t ${DOCKER_REGISTRY}/${GITHUB_USERNAME}/${DOCKER_REPOSITORY}:latest -t ${DOCKER_REGISTRY}/${GITHUB_USERNAME}/${DOCKER_REPOSITORY}:${ZAMMAD_VERSION} .
+  docker build --pull --no-cache --build-arg BUILD_DATE=$(date -u +”%Y-%m-%dT%H:%M:%SZ”) -t ${DOCKER_REGISTRY}/${GITHUB_USERNAME}/${DOCKER_REPOSITORY}:latest ${DOCKER_TAG} .
 
   docker push ${DOCKER_REGISTRY}/${GITHUB_USERNAME}/${DOCKER_REPOSITORY}:latest
 
-  docker push ${DOCKER_REGISTRY}/${GITHUB_USERNAME}/${DOCKER_REPOSITORY}:${ZAMMAD_VERSION}
+  if [ "${ZAMMAD_VERSION}" != "latest" ]; then
+    docker push ${DOCKER_REGISTRY}/${GITHUB_USERNAME}/${DOCKER_REPOSITORY}:${ZAMMAD_VERSION}
+  fi
 else
   DOCKER_LOGIN="$1"
   DOCKER_PASS="$2"
@@ -28,5 +36,4 @@ else
   docker image build --no-cache --pull --build-arg ${GIT_BRANCH} --build-arg BUILD_DATE=$(date -u +”%Y-%m-%dT%H:%M:%SZ”) -t ${DOCKER_LOGIN}/${DOCKER_REPO}:latest .
   docker login -u ${DOCKER_LOGIN} -p ${DOCKER_PASS}
   docker image push ${DOCKER_LOGIN}/${DOCKER_REPO}:latest
-
 fi

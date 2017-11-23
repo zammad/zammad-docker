@@ -21,9 +21,6 @@ if [ "$1" = 'zammad' ]; then
 
   cd ${ZAMMAD_DIR}
 
-  echo "enabling memcached..."
-  sed -i -e "s/.*config.cache_store.*file_store.*cache_file_store.*/    config.cache_store = :mem_cache_store, '127.0.0.1:11211'\n    config.session_store = :mem_cache_store, '127.0.0.1:11211'/" config/application.rb
-
   echo "starting zammad...."
   su -c "bundle exec script/websocket-server.rb -b 0.0.0.0 start &>> ${ZAMMAD_DIR}/log/zammad.log &" zammad
   su -c "bundle exec script/scheduler.rb start &>> ${ZAMMAD_DIR}/log/zammad.log &" zammad

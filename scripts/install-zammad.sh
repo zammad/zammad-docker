@@ -38,7 +38,7 @@ apt-get update
 # install elasticsearch & attachment plugin
 update-ca-certificates -f
 apt-get --no-install-recommends -y install elasticsearch=5.5.3
-cd /usr/share/elasticsearch && bin/elasticsearch-plugin install mapper-attachments
+cd /usr/share/elasticsearch && bin/elasticsearch-plugin install ingest-attachment
 service elasticsearch start
 
 # create zammad user

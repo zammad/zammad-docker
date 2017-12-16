@@ -12,7 +12,7 @@ echo "deb http://ftp.de.debian.org/debian jessie-backports main" > /etc/apt/sour
 apt-get update
 
 # install dependencies
-apt-get --no-install-recommends -y install apt-transport-https libterm-readline-perl-perl locales mc net-tools nginx memcached
+apt-get --no-install-recommends -y install apt-transport-https curl libterm-readline-perl-perl locales mc net-tools nginx memcached
 
 # install java from backports
 apt-get install -y -t jessie-backports openjdk-8-jre openjdk-8-jre-headless ca-certificates-java
@@ -29,7 +29,7 @@ echo "LANG=en_US.UTF-8" > /etc/default/locale
 apt-get --no-install-recommends install -q -y postgresql
 
 # configure elasticsearch repo & key
-wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
+curl -s -J -L -o - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
 echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-5.x.list
 
 # updating package list again
@@ -37,7 +37,7 @@ apt-get update
 
 # install elasticsearch & attachment plugin
 update-ca-certificates -f
-apt-get --no-install-recommends -y install elasticsearch=5.5.3
+apt-get --no-install-recommends -y install elasticsearch
 cd /usr/share/elasticsearch && bin/elasticsearch-plugin install ingest-attachment
 service elasticsearch start
 

@@ -4,7 +4,7 @@ set -e
 
 if [ "$1" = 'zammad' ]; then
 
-  echo -e "\n Stating Zammad... \n"
+  echo -e "\n Starting Zammad... \n"
 
   # starting services
   service postgresql start

@@ -4,7 +4,7 @@ set -e
 
 if [ "$1" = 'zammad' ]; then
 
-  echo -e "\n Starting Zammad... \n"
+  echo -e "\n Starting services... \n"
 
   # starting services
   service postgresql start
@@ -15,13 +15,13 @@ if [ "$1" = 'zammad' ]; then
 
   # wait for postgres processe coming up
   until su - postgres -c 'psql -c "select version()"' &> /dev/null; do
-    echo "waiting for postgres to be ready..."
+    echo "Waiting for PostgreSQL to be ready..."
     sleep 2
   done
 
   cd ${ZAMMAD_DIR}
 
-  echo "starting zammad...."
+  echo -e "\n Starting Zammad... \n"
   su -c "bundle exec script/websocket-server.rb -b 0.0.0.0 start &>> ${ZAMMAD_DIR}/log/zammad.log &" zammad
   su -c "bundle exec script/scheduler.rb start &>> ${ZAMMAD_DIR}/log/zammad.log &" zammad
 
@@ -33,14 +33,13 @@ if [ "$1" = 'zammad' ]; then
 
   # wait for zammad processe coming up
   until (echo > /dev/tcp/localhost/3000) &> /dev/null; do
-    echo "waiting for zammad to be ready..."
+    echo "Waiting for Zammad to be ready..."
     sleep 2
   done
 
   # show url
   echo -e "\nZammad is ready! Visit http://localhost in your browser!"
-  echo -e "If you like to use Zammad from somewhere else edit servername directive in /etc/nginx/sites-enabled/zammad.conf!\n"
-
+  
   # run shell
   /bin/bash
 

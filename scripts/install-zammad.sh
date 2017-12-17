@@ -88,8 +88,8 @@ rm -r tmp/cache
 bundle exec rails r "Setting.set('es_url', 'http://localhost:9200')"
 bundle exec rake searchindex:rebuild
 
-# copy nginx zammad config
-cp ${ZAMMAD_DIR}/contrib/nginx/zammad.conf /etc/nginx/sites-enabled/zammad.conf
+# create nginx zammad config
+sed -e "s#server_name localhost#server_name _#g" < ${ZAMMAD_DIR}/contrib/nginx/zammad.conf > /etc/nginx/sites-enabled/default
 
 # set user & group to zammad
 chown -R ${ZAMMAD_USER}:${ZAMMAD_USER} "${ZAMMAD_DIR}"

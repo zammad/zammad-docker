@@ -39,7 +39,7 @@ if [ "$1" = 'zammad' ]; then
 
   # show url
   echo -e "\nZammad is ready! Visit http://localhost in your browser!"
-  
+
   # run shell
   /bin/bash
 

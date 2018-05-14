@@ -8,8 +8,8 @@ ENV ZAMMAD_DB zammad
 ENV ZAMMAD_DB_USER zammad
 ENV RAILS_ENV production
 ENV RAILS_SERVER puma
-ENV GIT_URL https://github.com/monotek/zammad.git
-ENV GIT_BRANCH prometheus
+ENV GIT_URL https://github.com/zammad/zammad.git
+ENV GIT_BRANCH develop
 ENV ES_SKIP_SET_KERNEL_PARAMETERS true
 
 LABEL org.label-schema.build-date="$BUILD_DATE" \

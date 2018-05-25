@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -e
 
 if [ "${TRAVIS}" == 'true' ]; then
   if [ -n "${ZAMMAD_VERSION}" ]; then

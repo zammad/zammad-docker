@@ -14,8 +14,8 @@ apt-get update
 # install dependencies
 apt-get --no-install-recommends -y install apt-transport-https curl libterm-readline-perl-perl locales mc net-tools nginx memcached
 
-# install java from backports
-apt-get install -y -t jessie-backports openjdk-8-jre openjdk-8-jre-headless ca-certificates-java
+# install java
+apt-get install --no-install-recommends -y openjdk-8-jre openjdk-8-jre-headless ca-certificates-java
 
 # install postfix
 echo "postfix postfix/main_mailer_type string Internet site" > preseed.txt

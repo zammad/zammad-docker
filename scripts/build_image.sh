@@ -2,7 +2,7 @@
 
 set -e
 
-if [ "${TRAVIS}" == 'true' ]; then
+if [ "${TRAVIS}" == 'true' ] || [ "${CIRCLECI}" == 'true' ]; then
   if [ -n "${ZAMMAD_VERSION}" ]; then
     DOCKER_TAG="-t ${DOCKER_REGISTRY}/${GITHUB_USERNAME}/${DOCKER_REPOSITORY}:${ZAMMAD_VERSION}"
   else

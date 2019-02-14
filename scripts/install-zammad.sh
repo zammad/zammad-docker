@@ -12,7 +12,7 @@ echo "deb http://ftp.de.debian.org/debian jessie-backports main" > /etc/apt/sour
 apt-get update
 
 # install dependencies
-apt-get --no-install-recommends -y install apt-transport-https curl libterm-readline-perl-perl locales mc net-tools nginx memcached
+apt-get --no-install-recommends -y install apt-transport-https curl libterm-readline-perl-perl locales mc net-tools nginx memcached libimlib2 libimlib2-dev
 
 # install java
 apt-get install --no-install-recommends -y openjdk-8-jre openjdk-8-jre-headless ca-certificates-java

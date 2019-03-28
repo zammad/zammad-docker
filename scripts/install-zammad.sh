@@ -5,17 +5,11 @@ set -ex
 # set env
 export DEBIAN_FRONTEND=noninteractive
 
-# adding backport (openjdk)
-echo "deb http://deb.debian.org/debian stable-backports main" > /etc/apt/sources.list.d/backports.list
-
 # updating package list
 apt-get update
 
 # install dependencies
-apt-get --no-install-recommends -y install apt-transport-https curl libterm-readline-perl-perl locales mc net-tools nginx memcached libimlib2 libimlib2-dev
-
-# install java
-apt-get install --no-install-recommends -y openjdk-8-jre openjdk-8-jre-headless ca-certificates-java
+apt-get --no-install-recommends -y install apt-transport-https ca-certificates-java curl libimlib2 libimlib2-dev libterm-readline-perl-perl locales memcached mc net-tools nginx openjdk-8-jre openjdk-8-jre-headless 
 
 # install postfix
 echo "postfix postfix/main_mailer_type string Internet site" > preseed.txt

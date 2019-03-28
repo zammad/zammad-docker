@@ -1,4 +1,4 @@
-FROM ruby:2.4.4
+FROM ruby:2.4.4-stretch
 MAINTAINER Zammad.org <info@zammad.org>
 ARG BUILD_DATE
 

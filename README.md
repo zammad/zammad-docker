@@ -25,4 +25,4 @@ https://docs.zammad.org/en/latest/contributing-install-docker.html
 Docker image build status
 -------------------------
 
-[![Build Status](https://travis-ci.org/zammad/zammad-docker.svg?branch=master)](https://travis-ci.org/zammad/zammad-docker)
+[![Build Status](https://circleci.com/gh/zammad/zammad/tree/develop.svg?style=svg)](https://circleci.com/gh/zammad/zammad/tree/develop)

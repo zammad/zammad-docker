@@ -8,7 +8,6 @@ export DEBIAN_FRONTEND=noninteractive
 # adding backport (openjdk)
 echo "deb http://deb.debian.org/debian stable-backports main" > /etc/apt/sources.list.d/backports.list
 
-
 # updating package list
 apt-get update
 

@@ -9,7 +9,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update
 
 # install dependencies
-apt-get --no-install-recommends -y install apt-transport-https ca-certificates-java curl libimlib2 libimlib2-dev libterm-readline-perl-perl locales memcached mc net-tools nginx openjdk-8-jre openjdk-8-jre-headless 
+apt-get --no-install-recommends -y install apt-transport-https ca-certificates-java curl libimlib2 libimlib2-dev libterm-readline-perl-perl locales memcached mc net-tools nginx openjdk-8-jre openjdk-8-jre-headless
 
 # install postfix
 echo "postfix postfix/main_mailer_type string Internet site" > preseed.txt
@@ -24,15 +24,15 @@ apt-get --no-install-recommends install -q -y postgresql
 
 # configure elasticsearch repo & key
 curl -s -J -L -o - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
-echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-5.x.list
+echo "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-7.x.list
 
 # updating package list again
 apt-get update
 
 # install elasticsearch & attachment plugin
 update-ca-certificates -f
-apt-get --no-install-recommends -y install elasticsearch
-cd /usr/share/elasticsearch && bin/elasticsearch-plugin install ingest-attachment
+apt-get --no-install-recommends -y install elasticsearch-oss
+cd /usr/share/elasticsearch && bin/elasticsearch-plugin install -b ingest-attachment
 service elasticsearch start
 
 # create zammad user

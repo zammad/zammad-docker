@@ -19,7 +19,7 @@ if [ "$1" = 'zammad' ]; then
     sleep 2
   done
 
-  cd ${ZAMMAD_DIR}
+  cd "${ZAMMAD_DIR}"
 
   echo -e "\n Starting Zammad... \n"
   su -c "bundle exec script/websocket-server.rb -b 0.0.0.0 start &>> ${ZAMMAD_DIR}/log/zammad.log &" zammad

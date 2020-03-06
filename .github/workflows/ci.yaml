@@ -32,13 +32,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-      - name: pull container images
-        run: docker pull zammad/zammad:latest
+      - name: build docker containers
+        run: docker build --pull --no-cache --build-arg BUILD_DATE="$(date -u +'%Y-%m-%dT%H:%M:%SZ')" -t zammad .
       - name: docker run
-        run: docker run -i --name zammad-test --rm zammad/zammad:latest
+        run: docker run -i --name zammad-test --rm zammad
       - name: add autowizard file
         run: docker cp .github/auto_wizard.json zammad-test:/opt/zammad
       - name: run tests
         run: .github/tests.sh
-
-  

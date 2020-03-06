@@ -25,8 +25,11 @@ LABEL org.label-schema.build-date="$BUILD_DATE" \
 # Expose ports
 EXPOSE 80
 
+# set shell
+SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
+
 # fixing service start
-RUN echo "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d
+RUN printf '!#/bin/bash\nexit 0' > /usr/sbin/policy-rc.d
 
 # install zammad
 COPY scripts/install-zammad.sh /tmp

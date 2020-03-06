@@ -9,7 +9,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update
 
 # install dependencies
-apt-get --no-install-recommends -y install apt-transport-https ca-certificates-java curl libimlib2 libimlib2-dev libterm-readline-perl-perl locales memcached net-tools nginx openjdk-8-jre openjdk-8-jre-headless
+apt-get --no-install-recommends -y install apt-transport-https ca-certificates-java curl libimlib2 libimlib2-dev libterm-readline-perl-perl locales memcached net-tools nginx default-jdk
 
 # install postfix
 echo "postfix postfix/main_mailer_type string Internet site" > preseed.txt

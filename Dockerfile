@@ -1,4 +1,4 @@
-FROM ruby:2.5.5-stretch
+FROM ruby:2.5.5-buster
 ARG BUILD_DATE
 
 ENV ZAMMAD_DIR /opt/zammad

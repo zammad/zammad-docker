@@ -6,7 +6,7 @@
 set -o errexit
 set -o pipefail
 
-docker logs --timestamps --follow &
+docker logs --timestamps --follow zammad-test &
 
 until (curl -I --silent --fail localhost | grep -iq "HTTP/1.1 200 OK"); do
     echo "wait for zammad to be ready..."

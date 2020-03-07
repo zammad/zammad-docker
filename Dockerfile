@@ -12,6 +12,7 @@ ENV GIT_URL https://github.com/zammad/zammad.git
 ENV GIT_BRANCH develop
 ENV ES_SKIP_SET_KERNEL_PARAMETERS true
 
+
 LABEL org.label-schema.build-date="$BUILD_DATE" \
       org.label-schema.name="Zammad" \
       org.label-schema.license="AGPL-3.0" \

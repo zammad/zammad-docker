@@ -25,20 +25,20 @@ jobs:
         with:
           dockerfile: Dockerfile
 
-  test-docker:
+  build-and-run-docker:
     timeout-minutes: 30
     runs-on: ubuntu-latest
-    needs: lint-docker-file
+    needs: 
+      - lint-bash-scripts
+      - lint-docker-file
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-      - name: pull container images
-        run: docker pull zammad/zammad:latest
+      - name: build docker container
+        run: docker build --pull --no-cache --build-arg BUILD_DATE="$(date -u +'%Y-%m-%dT%H:%M:%SZ')" -t zammad .
       - name: docker run
-        run: docker run -i --name zammad-test --rm zammad/zammad:latest
+        run: docker run -d -p 80:80 --name zammad-test --rm zammad
       - name: add autowizard file
         run: docker cp .github/auto_wizard.json zammad-test:/opt/zammad
       - name: run tests
         run: .github/tests.sh
-
-  

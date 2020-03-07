@@ -1,4 +1,4 @@
-FROM ruby:2.5.5-stretch
+FROM ruby:2.5.5-buster
 ARG BUILD_DATE
 
 ENV ZAMMAD_DIR /opt/zammad
@@ -25,18 +25,22 @@ LABEL org.label-schema.build-date="$BUILD_DATE" \
 # Expose ports
 EXPOSE 80
 
+# set shell
+SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
+
 # fixing service start
-RUN echo "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d
+RUN printf '!#/bin/bash\nexit 0' > /usr/sbin/policy-rc.d
 
 # install zammad
-COPY scripts/install-zammad.sh /tmp
+COPY install-zammad.sh /tmp
 RUN chmod +x /tmp/install-zammad.sh;/bin/bash -l -c /tmp/install-zammad.sh
 
 # cleanup
-RUN rm -rf /var/lib/apt/lists/* preseed.txt
+RUN apt-get clean -y && \
+    rm -rf preseed.txt /tmp/install-zammad.sh /var/lib/apt/lists/*
 
 # docker init
-COPY scripts/docker-entrypoint.sh /
+COPY docker-entrypoint.sh /
 RUN chown ${ZAMMAD_USER}:${ZAMMAD_USER} /docker-entrypoint.sh;chmod +x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["zammad"]

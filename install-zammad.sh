@@ -9,7 +9,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update
 
 # install dependencies
-apt-get --no-install-recommends -y install apt-transport-https ca-certificates-java curl libimlib2 libimlib2-dev libterm-readline-perl-perl locales memcached mc net-tools nginx openjdk-8-jre openjdk-8-jre-headless
+apt-get --no-install-recommends -y install apt-transport-https ca-certificates-java curl libimlib2 libimlib2-dev libterm-readline-perl-perl locales memcached net-tools nginx default-jdk
 
 # install postfix
 echo "postfix postfix/main_mailer_type string Internet site" > preseed.txt
@@ -63,7 +63,7 @@ echo "CREATE USER \"${ZAMMAD_DB_USER}\" WITH PASSWORD '${ZAMMAD_DB_PASS}';" | su
 echo "GRANT ALL PRIVILEGES ON DATABASE \"${ZAMMAD_DB}\" TO \"${ZAMMAD_DB_USER}\";" | su - postgres -c psql
 
 # create database.yml
-sed -e "s#production:#${RAILS_ENV}:#" -e "s#.*adapter:.*#  adapter: postgresql#" -e "s#.*username:.*#  username: ${ZAMMAD_DB_USER}#" -e "s#.*password:.*#  password: ${ZAMMAD_DB_PASS}#" -e "s#.*database:.*#  database: ${ZAMMAD_DB}\n  host: localhost#" < ${ZAMMAD_DIR}/contrib/packager.io/database.yml.pkgr > ${ZAMMAD_DIR}/config/database.yml
+sed -e "s#production:#${RAILS_ENV}:#" -e "s#.*adapter:.*#  adapter: postgresql#" -e "s#.*username:.*#  username: ${ZAMMAD_DB_USER}#" -e "s#.*password:.*#  password: ${ZAMMAD_DB_PASS}#" -e "s#.*database:.*#  database: ${ZAMMAD_DB}\n  host: localhost#" < "${ZAMMAD_DIR}"/contrib/packager.io/database.yml.pkgr > "${ZAMMAD_DIR}"/config/database.yml
 
 # enable memcached
 sed -i -e "s/.*config.cache_store.*file_store.*cache_file_store.*/    config.cache_store = :dalli_store, '127.0.0.1:11211'\n    config.session_store = :dalli_store, '127.0.0.1:11211'/" config/application.rb
@@ -83,7 +83,7 @@ bundle exec rails r "Setting.set('es_url', 'http://localhost:9200')"
 bundle exec rake searchindex:rebuild
 
 # create nginx zammad config
-sed -e "s#server_name localhost#server_name _#g" < ${ZAMMAD_DIR}/contrib/nginx/zammad.conf > /etc/nginx/sites-enabled/default
+sed -e "s#server_name localhost#server_name _#g" < "${ZAMMAD_DIR}"/contrib/nginx/zammad.conf > /etc/nginx/sites-enabled/default
 
 # set user & group to zammad
-chown -R ${ZAMMAD_USER}:${ZAMMAD_USER} "${ZAMMAD_DIR}"
+chown -R "${ZAMMAD_USER}:${ZAMMAD_USER}" "${ZAMMAD_DIR}"

@@ -84,6 +84,8 @@ bundle exec rake searchindex:rebuild
 
 # create nginx zammad config
 sed -e "s#server_name localhost#server_name _#g" < "${ZAMMAD_DIR}"/contrib/nginx/zammad.conf > /etc/nginx/sites-enabled/default
+ln -sf /dev/stdout /var/log/nginx/access.log 
+ln -sf /dev/stderr /var/log/nginx/error.log
 
 # set user & group to zammad
 chown -R "${ZAMMAD_USER}:${ZAMMAD_USER}" "${ZAMMAD_DIR}"

@@ -20,8 +20,7 @@ echo "Success - Zammad is up :)"
 echo
 
 
-echo
-echo "Success - Zammad is up :)"
+
 echo
 echo "Execute autowizard..."
 echo

@@ -26,3 +26,4 @@ curl -I --silent --fail --show-error "http://localhost/#getting_started/auto_wiz
 echo 
 echo "Autowizard executed successfully :)"
 echo 
+

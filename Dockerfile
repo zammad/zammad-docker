@@ -31,7 +31,7 @@ EXPOSE 80
 SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
 
 # fixing service start
-RUN printf '!#/bin/bash\nexit 0' > /usr/sbin/policy-rc.d
+RUN printf '#!/bin/bash\nexit 0' > /usr/sbin/policy-rc.d
 
 # install zammad
 COPY install-zammad.sh /tmp

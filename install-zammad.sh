@@ -9,7 +9,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update
 
 # install dependencies
-apt-get --no-install-recommends -y install apt-transport-https ca-certificates-java curl libimlib2 libimlib2-dev libterm-readline-perl-perl locales memcached net-tools nginx default-jdk shared-mime-info
+apt-get --no-install-recommends -y install apt-transport-https ca-certificates-java curl libimlib2 libimlib2-dev libterm-readline-perl-perl locales memcached net-tools nginx default-jdk shared-mime-info nodejs
 
 # install postfix
 echo "postfix postfix/main_mailer_type string Internet site" > preseed.txt
@@ -84,7 +84,7 @@ bundle exec rake searchindex:rebuild
 
 # create nginx zammad config
 sed -e "s#server_name localhost#server_name _#g" < "${ZAMMAD_DIR}"/contrib/nginx/zammad.conf > /etc/nginx/sites-enabled/default
-ln -sf /dev/stdout /var/log/nginx/access.log 
+ln -sf /dev/stdout /var/log/nginx/access.log
 ln -sf /dev/stderr /var/log/nginx/error.log
 
 # set user & group to zammad

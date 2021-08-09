@@ -10,6 +10,7 @@ if [ "$1" = 'zammad' ]; then
   service elasticsearch start
   service postfix start
   service memcached start
+  service redis-server start
   service nginx start
 
   # wait for postgres processe coming up

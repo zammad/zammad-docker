@@ -9,7 +9,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update
 
 # install dependencies
-apt-get --no-install-recommends -y install apt-transport-https ca-certificates-java curl libimlib2 libimlib2-dev libterm-readline-perl-perl locales memcached net-tools nginx default-jdk shared-mime-info nodejs
+apt-get --no-install-recommends -y install apt-transport-https ca-certificates-java curl libimlib2 libimlib2-dev libterm-readline-perl-perl locales memcached net-tools nginx default-jdk shared-mime-info nodejs redis-server
 
 # install postfix
 echo "postfix postfix/main_mailer_type string Internet site" > preseed.txt
@@ -64,9 +64,6 @@ echo "GRANT ALL PRIVILEGES ON DATABASE \"${ZAMMAD_DB}\" TO \"${ZAMMAD_DB_USER}\"
 
 # create database.yml
 sed -e "s#production:#${RAILS_ENV}:#" -e "s#.*adapter:.*#  adapter: postgresql#" -e "s#.*username:.*#  username: ${ZAMMAD_DB_USER}#" -e "s#.*password:.*#  password: ${ZAMMAD_DB_PASS}#" -e "s#.*database:.*#  database: ${ZAMMAD_DB}\n  host: localhost#" < "${ZAMMAD_DIR}"/contrib/packager.io/database.yml.pkgr > "${ZAMMAD_DIR}"/config/database.yml
-
-# enable memcached
-sed -i -e "s/.*config.cache_store.*file_store.*cache_file_store.*/    config.cache_store = :dalli_store, '127.0.0.1:11211'\n    config.session_store = :dalli_store, '127.0.0.1:11211'/" config/application.rb
 
 # populate database
 bundle exec rake db:migrate

@@ -11,7 +11,8 @@ ENV RAILS_SERVER puma
 ENV GIT_URL https://github.com/zammad/zammad.git
 ENV GIT_BRANCH develop
 ENV ES_SKIP_SET_KERNEL_PARAMETERS true
-
+ENV REDIS_URL redis://127.0.0.1:6379
+ENV MEMCACHE_SERVERS 127.0.0.1:11211
 
 LABEL org.label-schema.build-date="$BUILD_DATE" \
       org.label-schema.name="Zammad" \

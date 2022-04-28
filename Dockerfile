@@ -1,4 +1,4 @@
-FROM ruby:3.0.3-buster
+FROM ruby:3.0.4-buster
 ARG BUILD_DATE
 
 ENV ZAMMAD_DIR /opt/zammad

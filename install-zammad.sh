@@ -9,7 +9,18 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update
 
 # install dependencies
-apt-get --no-install-recommends -y install apt-transport-https ca-certificates-java curl libimlib2 libimlib2-dev libterm-readline-perl-perl locales memcached net-tools nginx default-jdk shared-mime-info nodejs redis-server
+apt-get --no-install-recommends -y install apt-transport-https ca-certificates-java curl libimlib2 libimlib2-dev libterm-readline-perl-perl locales memcached net-tools nginx default-jdk shared-mime-info redis-server
+
+# Install Node.js 16 repository from Nodesource
+KEYRING=/usr/share/keyrings/nodesource.gpg
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | tee "$KEYRING" >/dev/null
+cat - > /etc/apt/sources.list.d/nodesource.list <<NODESOURCE_LIST
+deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x buster main
+NODESOURCE_LIST
+
+apt-get update
+apt-get --no-install-recommends -y install nodejs
+npm -g install yarn
 
 # install postfix
 echo "postfix postfix/main_mailer_type string Internet site" > preseed.txt

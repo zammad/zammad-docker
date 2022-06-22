@@ -23,7 +23,7 @@ if [ "$1" = 'zammad' ]; then
 
   echo -e "\n Starting Zammad... \n"
   su -c "bundle exec script/websocket-server.rb -b 0.0.0.0 start &" zammad
-  su -c "bundle exec script/scheduler.rb start &" zammad
+  su -c "bundle exec script/background-worker.rb start &" zammad
 
   # show url
   echo -e "\nZammad will be ready in some seconds! Visit http://localhost in your browser!"

@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
       - name: Lint Bash scripts
         uses: docker://koalaman/shellcheck-alpine:v0.7.0
         with:
@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1    
+        uses: actions/checkout@v3    
       - name: lint zammad dockerfile
         uses: brpaz/hadolint-action@master
         with:
@@ -32,7 +32,7 @@ jobs:
       - lint-docker-file
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
       - name: build docker container
         run: docker build --pull --no-cache --build-arg BUILD_DATE="$(date -u +'%Y-%m-%dT%H:%M:%SZ')" -t zammad .
       - name: docker run
@@ -50,7 +50,7 @@ jobs:
       - lint-docker-file
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
       - name: docker pull image
         run: docker pull zammad/zammad:latest
       - name: docker run
